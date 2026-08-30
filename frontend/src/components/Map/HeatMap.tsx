@@ -528,7 +528,7 @@ export function HeatMap({ initialProfile, onChangeProfile }: HeatMapProps) {
         borderBottom: "1px solid var(--border)",
         boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
       }}>
-        <span style={{ fontFamily: '"Plus Jakarta Sans", system-ui, sans-serif', color: "var(--brand)", fontWeight: 800, fontSize: 17, letterSpacing: -0.4 }}>🌡️ HeatGraph</span>
+        <span style={{ fontFamily: '"Plus Jakarta Sans", system-ui, sans-serif', color: "var(--brand)", fontWeight: 800, fontSize: 17, letterSpacing: -0.4 }}>🌡️ ImpactGraph</span>
         <span style={{ color: "var(--fg-faint)", fontSize: 12 }}>|</span>
         <span style={{ color: "var(--fg-muted)", fontSize: 12, fontWeight: 500 }}>New York City</span>
 
@@ -605,7 +605,7 @@ export function HeatMap({ initialProfile, onChangeProfile }: HeatMapProps) {
         {/* Tour button */}
         <button
           onClick={() => setTourActive(true)}
-          title="Take a guided tour of HeatGraph"
+          title="Take a guided tour of ImpactGraph"
           style={{
             padding: "4px 10px", borderRadius: 6, fontSize: 10, color: "var(--fg-subtle)",
             background: "transparent", border: "1px solid var(--border)", cursor: "pointer",

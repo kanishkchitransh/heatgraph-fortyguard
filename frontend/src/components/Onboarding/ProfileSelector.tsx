@@ -143,7 +143,7 @@ export function ProfileSelector({ onComplete }: ProfileSelectorProps) {
       {/* Brand */}
       <div style={{ marginBottom: 8, fontSize: 28 }}>🌡️</div>
       <h1 style={{ color: "#f1f5f9", fontSize: 26, fontWeight: 800, margin: 0, letterSpacing: -0.5 }}>
-        HeatGraph
+        ImpactGraph
       </h1>
       <p style={{ color: "#64748b", fontSize: 14, margin: "6px 0 0", textAlign: "center" }}>
         New York City's cross-departmental heat intelligence platform
@@ -227,7 +227,7 @@ export function ProfileSelector({ onComplete }: ProfileSelectorProps) {
                 transition: "all 0.15s",
               }}
             >
-              Show my HeatGraph →
+              Show my ImpactGraph →
             </button>
           </div>
         </div>

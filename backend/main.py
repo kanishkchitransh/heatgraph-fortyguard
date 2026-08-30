@@ -12,7 +12,7 @@ from api.routes.live_context import router as live_context_router
 from api.routes.network      import router as network_router
 from db.database import init_db
 
-app = FastAPI(title="HeatGraph API", version="0.2.0")
+app = FastAPI(title="ImpactGraph API", version="0.2.0")
 
 # CORS: allow localhost in dev + any Railway/production origin
 app.add_middleware(

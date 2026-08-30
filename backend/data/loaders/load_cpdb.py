@@ -180,7 +180,7 @@ def load_cpdb(shp_path: str, dry_run: bool = False) -> None:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Load CPDB capital project points into HeatGraph entities table")
+    parser = argparse.ArgumentParser(description="Load CPDB capital project points into ImpactGraph entities table")
     parser.add_argument(
         "--shp",
         default=os.path.join(os.path.dirname(__file__), "..", "..", "..", "data", "nyc", "cpdb_projects_pts.shp"),

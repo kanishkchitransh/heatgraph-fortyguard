@@ -32,7 +32,7 @@ const TOUR_STEPS: TourStep[] = [
   {
     target:   "compound-tab",
     title:    "3 · Cross-silo risks are your most important alerts",
-    body:     "These are places where two city agencies unknowingly affect each other through temperature. A construction project (Buildings Dept) near a shelter (Homeless Services) — neither agency sees this connection. HeatGraph does.",
+    body:     "These are places where two city agencies unknowingly affect each other through temperature. A construction project (Buildings Dept) near a shelter (Homeless Services) — neither agency sees this connection. ImpactGraph does.",
     position: "left",
   },
   {

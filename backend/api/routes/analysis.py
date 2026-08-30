@@ -457,7 +457,7 @@ class NewProjectSpec(BaseModel):
     Specification for a hypothetical new capital project.
     Not saved to the database — computed in memory only.
 
-    The city planner drops a pin, describes the project, and HeatGraph
+    The city planner drops a pin, describes the project, and ImpactGraph
     propagates the thermal perturbation through the Forney graph to show
     which existing entities are affected and which new compound risks emerge.
     """

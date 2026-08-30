@@ -18,7 +18,7 @@ const GLOSSARY: Record<string, string> = {
   "sink":
     "An entity that cools the area around it — like a block of mature street trees or a green roof. They absorb and evaporate heat rather than radiating it.",
   "compound risk":
-    "When a heat source (emitter) and a vulnerable place (receptor) are close together but managed by different city agencies. Neither agency sees the full picture — HeatGraph does.",
+    "When a heat source (emitter) and a vulnerable place (receptor) are close together but managed by different city agencies. Neither agency sees the full picture — ImpactGraph does.",
   "cross-silo":
     "When two departments unknowingly affect each other through heat. Example: Buildings approves demolition that makes a nearby school (Education) dangerously hot. Neither sees the link.",
   "risk score":
@@ -26,7 +26,7 @@ const GLOSSARY: Record<string, string> = {
   "temperature edge":
     "The shared FortyGuard temperature reading that links two nearby entities. If a construction site and a school occupy the same thermal zone, temperature is the invisible thread between them.",
   "factor graph":
-    "The mathematical structure behind HeatGraph. Each entity is a node; temperature readings are the edges connecting nearby nodes. Changing one node's temperature ripples through its neighbors.",
+    "The mathematical structure behind ImpactGraph. Each entity is a node; temperature readings are the edges connecting nearby nodes. Changing one node's temperature ripples through its neighbors.",
   "learning loss":
     "The fraction of a school year's learning students lose due to classroom heat. Each 1°F above 72°F costs about 1% of daily learning (Park et al., NBER 2020). AC prevents 78% of that loss.",
   "heat vulnerability index":
