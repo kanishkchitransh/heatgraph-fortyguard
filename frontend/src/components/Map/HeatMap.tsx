@@ -216,7 +216,8 @@ export function HeatMap({ initialProfile, onChangeProfile }: HeatMapProps) {
   const [selectedRole, setSelectedRole] = useState<RoleKey>(profileToRoleKey(initialProfile));
   const [panelView,    setPanelView]    = useState<"list" | "network">("list");
 
-  const [mapData,   setMapData]   = useState<FeatureCollection | null>(null);
+  const [mapData,        setMapData]        = useState<FeatureCollection | null>(null);
+  const [heatmapVisible, setHeatmapVisible] = useState(true);
   const [statsData, setStatsData] = useState<Record<string, unknown> | null>(null);
   const [entities,  setEntities]  = useState<CityEntity[]>([]);
   const [totalEntities, setTotal] = useState(0);
@@ -309,15 +310,23 @@ export function HeatMap({ initialProfile, onChangeProfile }: HeatMapProps) {
       .catch(() => { /* silent */ });
   }, []);
 
-  // ── Heatmap fetch ──────────────────────────────────────────────────────
-  async function fetchHeatmap() {
+  // ── Heatmap fetch — uses current viewport bbox ────────────────────────
+  const fetchedBboxes = useRef<Set<string>>(new Set());
+
+  async function fetchHeatmap(bboxOverride?: [number, number, number, number]) {
+    // Parse viewBbox "west,south,east,north" → [w,s,e,n]
+    const parts = viewBbox.split(",").map(Number);
+    if (parts.length !== 4 && !bboxOverride) { setError("Move the map first to set a viewport."); return; }
+    const bbox = bboxOverride ?? (parts as [number, number, number, number]);
+    const bboxKey = bbox.map((n) => n.toFixed(3)).join(",");
+
     setLoading(true);
     setError(null);
     try {
       const resp = await fetch(`${API_BASE}/api/heatmap`, {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({ bbox: NYC.bbox, datetime: DEMO_DATE, granularity: 100 }),
+        body:    JSON.stringify({ bbox, datetime: DEMO_DATE, granularity: 100 }),
       });
       if (!resp.ok) {
         const err = await resp.json().catch(() => ({}));
@@ -327,16 +336,40 @@ export function HeatMap({ initialProfile, onChangeProfile }: HeatMapProps) {
       setIsCached(!!data._cached);
       setIsMock(!!data._mock);
       if (!data.map_data) { setError("No map_data in response."); return; }
-      const features = (data.map_data as FeatureCollection).features ?? [];
-      if (features.length === 0) { setError("FortyGuard returned 0 tiles for NYC."); return; }
-      setMapData(data.map_data as FeatureCollection);
+      const newFeatures = (data.map_data as FeatureCollection).features ?? [];
+      if (newFeatures.length === 0) { setError("FortyGuard returned 0 tiles for this area."); return; }
+      fetchedBboxes.current.add(bboxKey);
+      // Merge new tiles with existing ones (accumulate as map is panned)
+      setMapData((prev) => {
+        const existing = prev?.features ?? [];
+        const existingIds = new Set(existing.map((f) => JSON.stringify(f.geometry)));
+        const merged = [...existing, ...newFeatures.filter((f) => !existingIds.has(JSON.stringify(f.geometry)))];
+        return { type: "FeatureCollection", features: merged };
+      });
       setStatsData(data.stats_data as Record<string, unknown> ?? null);
+      setHeatmapVisible(true);
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
       setLoading(false);
     }
   }
+
+  // Auto-fetch heatmap when viewport changes (only if heatmap is active)
+  const lastFetchedBbox = useRef<string>("");
+  useEffect(() => {
+    if (!viewBbox || !mapData || !heatmapVisible || loading) return;
+    const parts = viewBbox.split(",").map(Number);
+    if (parts.length !== 4) return;
+    const bboxKey = parts.map((n) => n.toFixed(3)).join(",");
+    if (fetchedBboxes.current.has(bboxKey)) return;
+    if (lastFetchedBbox.current === bboxKey) return;
+    lastFetchedBbox.current = bboxKey;
+    const t = setTimeout(() => {
+      fetchHeatmap(parts as [number, number, number, number]);
+    }, 800); // 800ms debounce after map stops moving
+    return () => clearTimeout(t);
+  }, [viewBbox, heatmapVisible]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Entity fetch — viewport-driven ──────────────────────────────────────
   useEffect(() => {
@@ -534,14 +567,14 @@ export function HeatMap({ initialProfile, onChangeProfile }: HeatMapProps) {
 
         <button
           id="fetch-heatmap-btn"
-          onClick={fetchHeatmap}
+          onClick={mapData ? () => setHeatmapVisible((v) => !v) : fetchHeatmap}
           disabled={loading}
           style={{
             padding: "5px 14px", borderRadius: 8, fontSize: 12, fontWeight: 700,
             background: loading
               ? "var(--bg-muted)"
-              : (mapData && !isMock)
-                ? "#15803d"
+              : mapData
+                ? (heatmapVisible ? "#15803d" : "var(--fg-subtle)")
                 : "var(--brand)",
             color: loading ? "var(--fg-subtle)" : "#fff", border: "none",
             cursor: loading ? "not-allowed" : "pointer",
@@ -549,7 +582,11 @@ export function HeatMap({ initialProfile, onChangeProfile }: HeatMapProps) {
             boxShadow: loading ? "none" : "0 1px 4px rgba(47,111,214,0.25)",
           }}
         >
-          {loading ? "⏳ Loading…" : (mapData && !isMock) ? "✅ Heatmap Loaded" : "🌡️ Fetch Heatmap"}
+          {loading
+            ? "⏳ Loading…"
+            : mapData
+              ? (heatmapVisible ? "✅ Heatmap ON  ·  click to hide" : "🌡️ Heatmap OFF  ·  click to show")
+              : "🌡️ Fetch Heatmap"}
         </button>
 
         {/* FortyGuard data source badge */}
@@ -698,7 +735,7 @@ export function HeatMap({ initialProfile, onChangeProfile }: HeatMapProps) {
               onMapClick={(ll) => { setProjectPin(ll); setProjectSimMode(false); }}
             />
 
-            {mapData && (
+            {mapData && heatmapVisible && (
               <GeoJSON
                 key={`heat-nyc-${tileCount}`}
                 data={mapData}

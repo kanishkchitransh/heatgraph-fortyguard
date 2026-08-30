@@ -97,31 +97,14 @@ class FortyGuardClient:
         """
         POST /v1/heatmap — temperature/persistence/exceedance heatmap.
 
-        body must include analytic_type. For 'persistence' or 'exceedance'
-        also include threshold (°C) and direction ('above').
-
-        Falls back to any cached NYC heatmap so the demo always has data.
+        Caches per exact bbox+datetime hash only. No fallback to stale data —
+        each viewport gets its own real FortyGuard response.
         """
         key    = _cache_key("/v1/heatmap", body)
         cached = _get_cached(self.db, key)
         if cached:
             cached["_cached"] = True
             return cached
-
-        # Fallback: return any existing heatmap with real tile data
-        try:
-            for row in self.db.query(ApiCache).all():
-                try:
-                    data = json.loads(row.response_json or "{}")
-                except Exception:
-                    continue
-                map_data = data.get("map_data")
-                if isinstance(map_data, dict) and len(map_data.get("features", [])) > 100:
-                    _set_cached(self.db, key, data)
-                    data["_cached"] = True
-                    return data
-        except Exception:
-            pass
 
         activity_id = await self._submit("/v1/heatmap", body)
         result      = await self._poll(activity_id)
