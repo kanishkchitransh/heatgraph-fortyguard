@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HeatGraph — FortyGuard Hackathon 2026</title>
+
+    <!-- FortyGuard fonts: Plus Jakarta Sans (display) + Inter (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      *, *::before, *::after { box-sizing: border-box; }
+
+      :root {
+        /* FortyGuard design tokens */
+        --brand:           #2f6fd6;
+        --brand-hover:     #2563eb;
+        --brand-fg:        #ffffff;
+        --bg:              #f8fafc;
+        --bg-card:         #ffffff;
+        --bg-muted:        #f1f5f9;
+        --border:          #e2e8f0;
+        --border-strong:   #cbd5e1;
+        --fg:              #0f172a;
+        --fg-muted:        #475569;
+        --fg-subtle:       #94a3b8;
+        --fg-faint:        #cbd5e1;
+        /* Risk severity */
+        --risk-high:       #ef4444;
+        --risk-med:        #f59e0b;
+        --risk-low:        #22c55e;
+        /* Compound / cross-silo */
+        --compound:        #8b5cf6;
+      }
+
+      html, body, #app {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: Inter, system-ui, sans-serif;
+        font-size: 14px;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* Plus Jakarta Sans for headings */
+      .font-display {
+        font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+      }
+
+      /* Leaflet popup — match light theme */
+      .leaflet-popup-content-wrapper {
+        background: #ffffff;
+        color: #0f172a;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      }
+      .leaflet-popup-tip { background: #ffffff; }
+      .leaflet-popup-content { margin: 12px 16px; }
+
+      /* Leaflet controls */
+      .leaflet-control-zoom a {
+        background: #ffffff !important;
+        color: #0f172a !important;
+        border-color: #e2e8f0 !important;
+      }
+      .leaflet-control-zoom a:hover {
+        background: #f1f5f9 !important;
+      }
+
+      /* Scrollbars */
+      ::-webkit-scrollbar { width: 5px; height: 5px; }
+      ::-webkit-scrollbar-track { background: #f1f5f9; }
+      ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+      ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# DB files — SQLite cache is gitignored (seeded at runtime)
+*.db
+
+# Frontend build artifacts
+frontend/dist/
+
+# Large NYC source data files (downloaded at runtime / too large for git)
+data/nyc/
