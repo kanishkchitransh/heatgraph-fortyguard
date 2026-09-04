@@ -288,4 +288,4 @@ ImpactGraph directly addresses all three directives:
 
 ---
 
-*Built with FortyGuard's Large Temperature Model · Google Gemini 2.0 Flash · NYC Open Data*
+*Built with FortyGuard's Large Temperature Model · Google Gemini 3.5 Flash · NYC Open Data*
