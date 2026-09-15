@@ -131,7 +131,7 @@ Clicking "Satellite" on any entity shows FortyGuard's current land-cover segment
 Switch from List to Network view to see the compound risk subgraph rendered as a force-directed graph using Cytoscape.js. Each node is a city entity, colored by department. Each edge is a compound thermal risk. Hover to highlight a node's connections (Obsidian-style). Filter by department or risk tier. Click any node to fly the map to that location.
 
 ### 7. Gemini-Powered Solution Layer
-Every risk card has a "What can I do?" button. Gemini 2.0 Flash uses web search to pull current NYC programs, live DHS shelter census numbers, and active grant windows — then generates role-specific actions (what the user can do this week), existing programs (with real links), and an optimistic counterfactual (what improves if action is taken). Pre-generated silently for the top 3 compound risks on page load.
+Every risk card has a "What can I do?" button. Gemini 3.5 Flash uses web search to pull current NYC programs, live DHS shelter census numbers, and active grant windows — then generates role-specific actions (what the user can do this week), existing programs (with real links), and an optimistic counterfactual (what improves if action is taken). Pre-generated silently for the top 3 compound risks on page load.
 
 ### 8. Thermal Persistence Analysis
 Beyond temperature snapshots, ImpactGraph can query FortyGuard's `persistence` analytic type — identifying how many consecutive hours a location stayed above a critical threshold. This is the metric that reveals transformer recovery failure (equipment that never cools overnight) and nighttime heat exposure in non-AC homes.
@@ -157,7 +157,7 @@ Beyond temperature snapshots, ImpactGraph can query FortyGuard's `persistence` a
 │  /api/analysis         Forney graph computation → risk scores    │
 │  /api/project-impact   Hypothetical emitter propagation          │
 │  /api/network          Cytoscape.js compound risk subgraph       │
-│  /api/solution         Gemini 2.0 Flash solution generation      │
+│  /api/solution         Gemini 3.5 Flash solution generation      │
 │  /api/live-context     Gemini web search for current NYC data    │
 │  /api/satellite        FortyGuard land-cover segmentation        │
 │  /api/heat-intelligence FortyGuard 5-category PDF report        │
@@ -167,7 +167,7 @@ Beyond temperature snapshots, ImpactGraph can query FortyGuard's `persistence` a
        │                                          │
 ┌──────▼──────────┐                    ┌──────────▼──────────────┐
 │  FortyGuard API │                    │   Google Gemini API      │
-│  /v1/heatmap    │                    │   gemini-2.0-flash       │
+│  /v1/heatmap    │                    │   gemini-3.5-flash       │
 │  /v1/env_params │                    │   + web search           │
 │  /v1/satellite  │                    └─────────────────────────┘
 │  /v1/streetview │
