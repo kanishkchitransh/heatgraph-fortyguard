@@ -1,7 +1,7 @@
 """
 Gemini Flash service — generates solution cards for compound risks.
 
-Calls Gemini 2.0 Flash with web search to produce structured JSON:
+Calls Gemini 3.5 Flash with web search to produce structured JSON:
   - what_you_can_do:   2-4 actions sorted low→high effort, NYC-specific
   - whats_happening:  1-3 real NYC programs found via web search
   - optimistic_outlook: counterfactual with numbers
